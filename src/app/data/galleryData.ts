@@ -255,8 +255,29 @@ function buildMemories(): MemoryItem[] {
 /** All memories sorted chronologically. */
 export const memories: MemoryItem[] = buildMemories();
 
-/** Featured memory – automatically the latest entry. */
+/** 
+ * Featured memory – can be set manually or defaults to the latest entry.
+ * To use a custom image:
+ * 1. Save your image to public/ folder (e.g., public/featured-memory.jpg)
+ * 2. Uncomment and modify the CUSTOM_FEATURED_MEMORY below
+ */
+
+// Uncomment and customize this to use a specific featured memory:
+const CUSTOM_FEATURED_MEMORY: FeaturedMemoryData | null = {
+  imageUrl: '/gallery/featured-hands.jpeg',
+  date: 'Where It All Began',
+  title: 'It all starts from here',
+  description: 'Every beautiful journey has a beginning, and ours started with you',
+};
+
+/** Featured memory – uses custom if defined, otherwise shows the latest entry. */
 export const featuredMemory: FeaturedMemoryData = (() => {
+  // If custom featured memory is defined, use it
+  if (CUSTOM_FEATURED_MEMORY) {
+    return CUSTOM_FEATURED_MEMORY;
+  }
+  
+  // Otherwise, auto-select the latest entry
   const latest = memories[memories.length - 1];
   if (!latest) {
     return { imageUrl: '', date: '', title: '', description: '' };
